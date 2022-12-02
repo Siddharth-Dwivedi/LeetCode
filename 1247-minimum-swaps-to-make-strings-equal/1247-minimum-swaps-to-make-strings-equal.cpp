@@ -1,23 +1,28 @@
 class Solution {
 public:
-    int minimumSwap(string s1, string s2) {
-        int ans = 0;
-        if(s1.length()!= s2.length()) return -1;
-        int xy = 0 ,yx=0;
-        
-        for(int i=0;i<s1.length();i++){
-            if(s1[i]=='x' && s2[i]=='y') xy++;
-            if(s1[i]=='y' && s2[i]=='x') yx++;
+    bool closeStrings(string word1, string word2) 
+    {
+        set<char> st1,st2;
+        map<char,int> mp1,mp2;
+        for(auto val:word1)
+        {
+            st1.insert(val);
+            mp1[val]++;
         }
-        ans += xy/2 + yx/2;
-        xy =xy%2;
-        yx =yx%2;
-        if(xy==yx){
-            ans += 2*xy;
-        }else{
-            ans=-1;
+        for(auto val:word2)
+        {
+            st2.insert(val);
+            mp2[val]++;
         }
-
-        return ans;
+        map<int,int>check1,check2;
+        for(auto val:mp1)
+        {
+            check1[val.second]++;
+        }
+        for(auto val:mp2)
+        {
+            check2[val.second]++;
+        }
+        return (st1==st2)&&(check1==check2);
     }
 };
