@@ -23,50 +23,36 @@ class Solution
     public:
     Node *copyList(Node *head)
     {
-        //Write your code here
-        unordered_map<Node*, Node*> m;
+        if(head == NULL){
+            return NULL;
+        }
         Node* temp = head;
-        int c = 0;
+        Node* itr;
         Node* a;
-        
-        // while(temp!= NULL){
-        //     cout<<temp<<" ";
-        //     cout<<temp->arb<<endl;
-        //     temp = temp->next;
-        // }
-        // temp = head;
         while(temp!=NULL){
-            if(c==0){
-                a = new Node(temp->data);
-                c = 1;
-            }
-            if(temp->next!=NULL)
-                a->next = new Node(temp->next->data);
-            m[temp] = a;
-            a = a->next;
-            temp = temp->next;
+            itr = temp->next;
+            temp->next = new Node(temp->data);
+            temp->next->next = itr;
+            temp = itr;
         }
-        
-        
+        Node* realHead = head->next;
         temp = head;
-        Node* rhead = m[temp];
         while(temp!=NULL){
-            rhead->arb = m[temp->arb];
-            temp = temp->next;
-            rhead = rhead ->next;
+            Node* b = temp->next;
+            if(temp->arb!=NULL)
+            b->arb = temp->arb->next;
+            temp = temp->next->next;
         }
-        
-        // for(auto it:m){
-        //     cout<<it.first<<" "<<it.second<<endl;
-        // }
-        
-        // rhead = m[head];
-        // while(rhead!= NULL){
-        //     cout<<rhead<<" ";
-        //     cout<<rhead->arb<<endl;
-        //     rhead = rhead->next;
-        // }
-        return m[head];
+        temp = head;
+        while(temp!=NULL){
+            Node* a = temp;
+            Node* b = temp->next;
+            a->next = a->next->next;
+            if(b->next!=NULL)
+            b->next = b->next->next;
+            temp = a->next;
+        }
+        return realHead;
     }
 
 };
